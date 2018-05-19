@@ -30,7 +30,7 @@ from sklearn.naive_bayes import GaussianNB
 
 
 
-## Google Colab Helper Class
+
 class GoogleColabHelper():
 
   def __init__(self):
@@ -39,13 +39,13 @@ class GoogleColabHelper():
     print '---------------------------------------------------------------------'
     print 'To Upload Files from local system to colab : - UploadFilesFromLocal()'
     print '---------------------------------------------------------------------'
-    print 'To Download Files                          : - downloadFile()'
+    print 'To Download Files                          : - downloadFile(path)'
     print '---------------------------------------------------------------------'
-    print 'Getting Data From URL                      : - getDataFromUrl()'
+    print 'Getting Data From URL                      : - getDataFromUrl(url)'
     print '---------------------------------------------------------------------'
-    print 'Unzip                                      : - Unzip()'
+    print 'Unzip                                      : - Unzip(path , directory)'
     print '---------------------------------------------------------------------'
-    print 'Download and Install Glove                 : - DownAndInstallGlove()'
+    print 'Download and Install Glove                 : - DownAndInstallGlove(directory)'
     print '---------------------------------------------------------------------'
 
 
@@ -89,12 +89,15 @@ class GoogleColabHelper():
     zip_ref.close()
     print "Done !!!"
     os.system('ls')
-
-
-# Neural Network Helper Class
+    
+    
+    
+#################################### Neural Network ####################################################    
+    
 class NN:
     def __init__(self):
-        self.model = Sequential()
+      print 'Model Initialized :)' 
+      self.model = Sequential()
 
     #input_dim: This is the size of the vocabulary in the text data. For example, if your data is integer encoded to values between 0-10, then the size of the vocabulary would be 11 words.
     #output_dim: This is the size of the vector space in which words will be embedded. It defines the size of the output vectors from this layer for each word. For example, it could be 32 or 100 or even larger. Test different values for your problem.
@@ -107,11 +110,11 @@ class NN:
         print('Embedd Success')
         
     def Conv1D(self,n_filters,kernel,padding = 'valid'):
-        self.model.add(Convolution1D(n_filters,kernel,padding = padding))
+      self.model.add(Convolution1D(n_filters,kernel,padding = padding))
         
     # Flattening
     def Flatten(self):
-        self.model.add(Flatten())
+      self.model.add(Flatten())
         
     # Input Layer
     def InputLayer(self,input_dim,output,activation):
@@ -145,7 +148,7 @@ class NN:
     def LSTM(self,output,return_sequences = False , drop_out = None):
         self.model.add(LSTM(output ,return_sequences = return_sequences , dropout = drop_out))
         
-    def Toeknizer(self , max_features ,data,split = ' '):
+    def Tokenizer(self , max_features ,data,split = ' '):
         self.tokenizer = Tokenizer(num_words=max_features, split=split)
         self.tokenizer.fit_on_texts(data)
     
@@ -153,17 +156,49 @@ class NN:
         X = self.tokenizer.texts_to_sequences(data)
         #print ("Pad Seq. X : " + str(X))
         X = pad_sequences(X)
-        return X
+        return X    
+      
 
-
+########################## Machine Learning ###########################################      
+      
 def is_categorical(array_like):
   return array_like.dtype.name == 'object'  
 
-# Machine Learning Helper class
 class MachineLearning():
   
   def __init__(self,dataset):
     self.dataset = dataset
+    print ('Functions : ')
+    print '----------------------------------------------------'
+    print 'For taking the updated dataset        : getDataSet()'
+    print '----------------------------------------------------'
+    print 'For Checking Null Percentage          : checkCounts()'
+    print '----------------------------------------------------'
+    print 'For checking Null Values              : checkNull()'
+    print '----------------------------------------------------'
+    print 'For Getting Out Unique Values         : uniqueValues(column)'
+    print '----------------------------------------------------'
+    print 'For drawing bargraph distribution     : drawDistribution(column)'
+    print '----------------------------------------------------'
+    print 'Label Encoding                        : LabelEncoder(X)'
+    print '----------------------------------------------------'
+    print 'Filling Null Values without Imputer   : FillNA(cols , filling_data)'
+    print '----------------------------------------------------'
+    print 'Filling Null Values with Imputer      : FillNAImputer(strategy , X)'
+    print '----------------------------------------------------'
+    print 'Train and Test Splitting              : traintestSplit(X , y)'
+    print '----------------------------------------------------'
+    print 'XGBoost                               : XGBoost(X_train , y_train)'
+    print '----------------------------------------------------'
+    print 'SVM                                   : SVM(X_train , y_train)'
+    print '----------------------------------------------------'
+    print 'GaussianNB                            : GaussianNB(X_train,y_train)'
+    print '----------------------------------------------------'
+    print 'CheckAccuracy                         : CheckAccuracy(X_test , y_test)'
+    print '----------------------------------------------------'
+    print 'ConfusianMatrix                       : ConfusianMatrix(y_test , y_pred)'
+    
+    
   
   def getDataSet(self):
     return self.dataset
@@ -276,9 +311,4 @@ class MachineLearning():
     n.FitTrain(X_train,y_train,batch_size,epochs)
     y_pred = n.Predictions(X_Test) > 0.5
     self.ConfusionMatrix(y_test , y_pred)
-    return (n,y_pred)
-
-
-
-
-
+    return (n,y_pred)      
